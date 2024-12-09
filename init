@@ -121,7 +121,7 @@ local function keycheck()
             end
             if _G.Toggle then
                 Text1.Color = {0,255,0}
-                Text2.Text = "Off | [LCtrl] To Enable"
+                Text1.Text = "Off | [LCtrl] To Enable"
             else
                 Text1.Color = {255,0,0}
                 Text1.Text = "On | [LCtrl] To Disable"
