@@ -1,5 +1,5 @@
 Drawing.clear()
-
+_G.Toggle = true
 local completionlowest = 0
 local completionhighest = 1
 -- lowest is how low it can go
@@ -28,8 +28,8 @@ if PlayerGui then
     end
 end
 
-local calcX = 180
-local calcY = 30
+local calcX = 90
+local calcY = 50
 -- MODIFY THESE SO THE CIRCLE IS IN THE MIDDLE OF THE QUEST BUTTON ON THE X AXIS
 -- AND MODIFY IT SO THAT ITS ON THE BOTTOM OF THE QUEST BUTTON ON THE Y AXIS
 local showcase = Drawing.new("Circle")
@@ -102,12 +102,12 @@ local function Perfect_value_retrive(bar)
     return success, perfect_value
 end
 
-local Text1 = Drawing.new("Text")
-local Text2 = Drawing.new("Text")
+--[[local Text1 = Drawing.new("Text")
 local Screen = getscreendimensions()
 Text1.Text = "Off | [LCtrl] To Enable"
 Text1.Size = 14
 Text1.Visible = true
+Text1.Color = {0,255,0}
 Text1.Font = 2
 Text1.Position = {0, Screen.y/2}
 local function keycheck()
@@ -121,10 +121,10 @@ local function keycheck()
             end
             if _G.Toggle then
                 Text1.Color = {0,255,0}
-                Text1.Text = "Off | [LCtrl] To Enable"
+                Text1.Text = "On | [LCtrl] To Disable"
             else
                 Text1.Color = {255,0,0}
-                Text1.Text = "On | [LCtrl] To Disable"
+                Text1.Text = "Off | [LCtrl] To Enable"
             end
             wait(0.1)
         end
@@ -132,7 +132,7 @@ local function keycheck()
     end
 end
 
-spawn(keycheck)
+spawn(keycheck)]]
 
 while _G.auto == true do
     if not _G.Toggle then 
@@ -165,11 +165,13 @@ while _G.auto == true do
         if not RluaCast or type(RluaCast) ~= "table" then wait() continue end
 
         casted = RluaCast.Value
+
+
+
         if casted == false then
             pressed = false
         end
-
-        if casted ~= true then
+if casted ~= true then
             if not pressed then
                 mousemoveabs(screen.x / 2 + math.random(1,2), screen.y / 2 + math.random(1,2))
                 mouse1press()
@@ -191,7 +193,7 @@ while _G.auto == true do
             local success, perfect_value = Perfect_value_retrive(bar)
             DoSomething(success, perfect_value)
         end
-        wait()
+        wait()        
     end
 
     local button = getbutton()
