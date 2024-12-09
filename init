@@ -11,34 +11,6 @@ local completionhighest = 1
 local casted = false
 local MouseService = findfirstchild(Game, "MouseService")
 local screen = getscreendimensions()
-local questbutton
-
-
-local PlayerGui = game.Players.localPlayer:FindFirstChild("PlayerGui")
-if PlayerGui then
-    local TopBarStandard = PlayerGui:FindFirstChild("TopbarStandard")
-    if TopBarStandard then
-        local Holders = TopBarStandard:FindFirstChild("Holders")
-        if Holders then 
-            local Left = Holders:FindFirstChild("Left")
-            if Left then 
-                questbutton = Left:FindFirstChild("Quest")
-            end
-        end
-    end
-end
-
-local calcX = 90
-local calcY = 50
--- MODIFY THESE SO THE CIRCLE IS IN THE MIDDLE OF THE QUEST BUTTON ON THE X AXIS
--- AND MODIFY IT SO THAT ITS ON THE BOTTOM OF THE QUEST BUTTON ON THE Y AXIS
-local showcase = Drawing.new("Circle")
-showcase.Visible = true
-showcase.Position = {calcX, calcY}
-showcase.Color = {255, 255, 255}
-showcase.Radius = 10
-showcase.Thickness = 5
-
 
 _G.auto = false
 wait(2)
