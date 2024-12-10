@@ -7,7 +7,7 @@ local completionhighest = 1
 -- uses math.random()
 _G.legit = false
 -- if you switch ingame be sure to equip and unequip a rod to reset the spoof
--- turn to true to use legit mode
+-- turn to true to use legit mode or use the keybind
 local speed = 0.2
 -- go from 0.2 to however high you want. changes how fast you click on the shake buttons
 
