@@ -5,7 +5,7 @@ local completionhighest = 1
 -- lowest is how low it can go
 -- highest is how high it can go 
 -- uses math.random()
-local legit = false
+_G.legit = false
 -- if you switch ingame be sure to equip and unequip a rod to reset the spoof
 -- turn to true to use legit mode
 local speed = 0.2
@@ -15,6 +15,8 @@ local speed = 0.2
 local casted = false
 local MouseService = findfirstchild(Game, "MouseService")
 local screen = getscreendimensions()
+local oldname = nil
+
 
 _G.auto = false
 wait(2)
@@ -44,6 +46,26 @@ local function Power(character)
     end
     return nil
 end
+
+local function setrodname(name)
+    local localplayer = getlocalplayer()
+    if not localplayer then wait() end
+
+    local Character = getcharacter(localplayer)
+    if Character then
+        local Tools = findfirstchildofclass(Character, "Tool")
+        if Tools and string.match(getname(Tools), "Rod") then
+            if not oldname and string.match(getname(Tools), "Rod") then oldname = getname(Tools) end
+            sigma = Tools
+            if sigma then
+                local balloon = getmemoryvalue(sigma, 0x68, "qword")
+                local ptr = pointer_to_user_data(balloon)
+                local name = setmemoryvalue(ptr, 0x0, "string", name)
+            end
+        end
+    end
+end
+
 
 local function PowerBar(power)
     local firstChild = getchildren(power)[1]
@@ -79,13 +101,20 @@ local function Perfect_value_retrive(bar)
 end
 
 local Text1 = Drawing.new("Text")
+local Text2 = Drawing.new("Text")
 local Screen = getscreendimensions()
 Text1.Text = "Off | [LCtrl] To Enable"
+Text2.Text = "Legitmode off, | [L] To Enable"
 Text1.Size = 14
+Text2.Size = 14
 Text1.Visible = true
+Text2.Visible = true
 Text1.Color = {255,0,0}
+Text2.Color = {255,0,0}
 Text1.Font = 2
+Text2.Font = 2
 Text1.Position = {0, Screen.y/2}
+Text2.Position = {0, Screen.y/2 + 15}
 local function keycheck()
     local cached = tick()
     while true do
@@ -93,6 +122,9 @@ local function keycheck()
         for _, key in ipairs(getpressedkeys()) do
             if key == "LeftCtrl" and current - cached > 0.8 then
                 _G.Toggle = not _G.Toggle
+                cached = current
+            elseif key == "L" and current - cached > 0.8 then
+                _G.legit = not _G.legit
                 cached = current
             end
             if _G.Toggle then
@@ -102,7 +134,14 @@ local function keycheck()
                 Text1.Color = {255,0,0}
                 Text1.Text = "Off | [LCtrl] To Enable"
             end
-            wait(0.3)
+            if _G.legit then
+                Text2.Color = {0,255,0}
+                Text2.Text = "Legitmode on, | [L] To Enable"
+            else
+                Text2.Color = {255,0,0}
+                Text2.Text = "Legitmode off, | [L] To Enable"
+            end
+            wait(0.05)
         end
         wait()
     end
@@ -141,8 +180,6 @@ while _G.auto == true do
         if not RluaCast or type(RluaCast) ~= "table" then wait() continue end
 
         casted = RluaCast.Value
-        print(casted)
-
 
         if casted == false then
             pressed = false
@@ -169,7 +206,8 @@ while _G.auto == true do
             local success, perfect_value = Perfect_value_retrive(bar)
             DoSomething(success, perfect_value)
         end
-        wait(speed)        
+        wait()
+        if not casted then wait(speed) end
     end
 
     local button = getbutton()
@@ -187,75 +225,44 @@ while _G.auto == true do
         mousemoveabs(ForX + 2, ForY - 2)
         wait(0)
         mouse1click()
-        wait(speed)
         end
+        wait(speed)
     end
-
 
     -- REELING PART
-    if _G.Toggle and casted and not button and not legit then
-        local players = findfirstchild(Game, "Players")
-        if not players then wait() end
-
-        local localplayer = getlocalplayer()
-        if not localplayer then wait() end
-
-        local Character = getcharacter(localplayer)
-        if Character then
-            local Tools = findfirstchildofclass(Character, "Tool")
-            if Tools and string.match(getname(Tools), "Rod") then
-                sigma = Tools
-                if sigma then
-                    local balloon = getmemoryvalue(sigma, 0x68, "qword")
-                    local ptr = pointer_to_user_data(balloon)
-                    local name = setmemoryvalue(ptr, 0x0, "string", "Developers Rod")
-                end
-            end
-        end
+    if _G.Toggle and casted and not _G.legit then
+        setrodname("Developers Rod") 
     end
-    if _G.Toggle and casted and not button and legit then 
-        local cached = tick() 
-    
-        local success, err = pcall(function()
-                local localplayer = getlocalplayer()
-                if not localplayer then wait()  end
-                local playerGui = findfirstchild(localplayer, "PlayerGui")
-                if not playerGui then wait()  end
-                local current = tick()
-                local reel = findfirstchild(playerGui, "reel")
-                if not reel then 
-                    cached = current
-                    wait() 
-                     
-                end
-                local bar = findfirstchild(reel, "bar")
-                if not bar then 
-                    cached = current
-                    wait() 
-                     
-                end
-                if current - cached > speed then
-                    local playerbar = findfirstchild(bar, "playerbar")
-                    local fish = findfirstchild(bar, "fish")
+    if _G.Toggle and casted and _G.legit then 
+            local localplayer = getlocalplayer()
+            if not localplayer then wait() continue end
+            
+            local playerGui = findfirstchild(localplayer, "PlayerGui")
+            if not playerGui then wait() continue end
+            
+            local current = tick()
+            local reel = findfirstchild(playerGui, "reel")
+            local bar = nil
+            if reel then bar = findfirstchild(reel, "bar") end
+            
+            if bar then
+                local playerbar = findfirstchild(bar, "playerbar")
+                local fish = findfirstchild(bar, "fish")
+                
+                if playerbar and fish then
+                    local success, fishX = pcall(function()
+                        return getmemoryvalue(fish, 0x2E8, "float")
+                    end)
                     
-                    if playerbar and fish then
-                        local success, fishX = pcall(function()
-                            return getmemoryvalue(fish, 0x2E8, "float")
+                    if success and fishX then
+                        local clampedX = math.clamp(fishX, 0.15, 0.9)
+                        pcall(function()
+                            setmemoryvalue(playerbar, 0x2E8, "float", clampedX)
                         end)
-                        
-                        if success and fishX then
-                            local clampedX = math.clamp(fishX, 0.15, 0.9)
-                            pcall(function()
-                                setmemoryvalue(playerbar, 0x2E8, "float", clampedX)
-                            end)
-                        end
                     end
                 end
-            wait()
-        end)  
-        if not success then
-            warn("Reeling Error:", err)
-        end
+            end
+        wait()
     end
 
     casted = false
