@@ -1,11 +1,15 @@
 Drawing.clear()
-_G.Toggle = true
+_G.Toggle = false
 local completionlowest = 0
 local completionhighest = 1
 -- lowest is how low it can go
 -- highest is how high it can go 
 -- uses math.random()
-
+local legit = false
+-- if you switch ingame be sure to equip and unequip a rod to reset the spoof
+-- turn to true to use legit mode
+local speed = 0.2
+-- go from 0.2 to however high you want. changes how fast you click on the shake buttons
 
 -- dont change
 local casted = false
@@ -137,7 +141,7 @@ while _G.auto == true do
         if not RluaCast or type(RluaCast) ~= "table" then wait() continue end
 
         casted = RluaCast.Value
-
+        print(casted)
 
 
         if casted == false then
@@ -165,7 +169,7 @@ while _G.auto == true do
             local success, perfect_value = Perfect_value_retrive(bar)
             DoSomething(success, perfect_value)
         end
-        wait()        
+        wait(speed)        
     end
 
     local button = getbutton()
@@ -183,10 +187,13 @@ while _G.auto == true do
         mousemoveabs(ForX + 2, ForY - 2)
         wait(0)
         mouse1click()
+        wait(speed)
         end
     end
 
-    if _G.Toggle and casted and not button then
+
+    -- REELING PART
+    if _G.Toggle and casted and not button and not legit then
         local players = findfirstchild(Game, "Players")
         if not players then wait() end
 
@@ -206,7 +213,51 @@ while _G.auto == true do
             end
         end
     end
+    if _G.Toggle and casted and not button and legit then 
+        local cached = tick() 
+    
+        local success, err = pcall(function()
+                local localplayer = getlocalplayer()
+                if not localplayer then wait()  end
+                local playerGui = findfirstchild(localplayer, "PlayerGui")
+                if not playerGui then wait()  end
+                local current = tick()
+                local reel = findfirstchild(playerGui, "reel")
+                if not reel then 
+                    cached = current
+                    wait() 
+                     
+                end
+                local bar = findfirstchild(reel, "bar")
+                if not bar then 
+                    cached = current
+                    wait() 
+                     
+                end
+                if current - cached > speed then
+                    local playerbar = findfirstchild(bar, "playerbar")
+                    local fish = findfirstchild(bar, "fish")
+                    
+                    if playerbar and fish then
+                        local success, fishX = pcall(function()
+                            return getmemoryvalue(fish, 0x2E8, "float")
+                        end)
+                        
+                        if success and fishX then
+                            local clampedX = math.clamp(fishX, 0.15, 0.9)
+                            pcall(function()
+                                setmemoryvalue(playerbar, 0x2E8, "float", clampedX)
+                            end)
+                        end
+                    end
+                end
+            wait()
+        end)  
+        if not success then
+            warn("Reeling Error:", err)
+        end
+    end
 
     casted = false
-    wait(0.2)
+    wait()
 end
