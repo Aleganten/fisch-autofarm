@@ -5,7 +5,7 @@ local completionhighest = 1
 -- lowest is how low it can go
 -- highest is how high it can go 
 -- uses math.random()
-_G.legit = false
+_G.legit = true
 -- if you switch ingame be sure to equip and unequip a rod to reset the spoof
 -- turn to true to use legit mode
 local speed = 0.2
