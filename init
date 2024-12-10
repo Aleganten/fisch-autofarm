@@ -155,7 +155,7 @@ local function keycheck()
 end
 
 spawn(keycheck)
-
+print("start of log:")
 while _G.auto == true do
     if not _G.Toggle then 
         wait()
