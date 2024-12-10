@@ -7,7 +7,7 @@ local completionhighest = 1
 -- uses math.random()
 _G.legit = false
 -- if you switch ingame be sure to equip and unequip a rod to reset the spoof
--- turn to true to use legit mode or use the keybind
+-- turn to true to use legit mode
 local speed = 0.2
 -- go from 0.2 to however high you want. changes how fast you click on the shake buttons
 
@@ -102,19 +102,26 @@ end
 
 local Text1 = Drawing.new("Text")
 local Text2 = Drawing.new("Text")
+local Text2 = Drawing.new("Text")
 local Screen = getscreendimensions()
 Text1.Text = "Off | [LCtrl] To Enable"
-Text2.Text = "Legitmode off, | [L] To Enable"
+Text2.Text = "Blatant on, | [L] To Enable legit"
+Text3.Text = "If you use blatant and switch to legit ingame, be sure to reequip rod"
 Text1.Size = 14
 Text2.Size = 14
+Text3.Size = 14
 Text1.Visible = true
 Text2.Visible = true
+Text3.Visible = true
 Text1.Color = {255,0,0}
 Text2.Color = {255,0,0}
+Text3.Color = {255,255,255}
 Text1.Font = 2
 Text2.Font = 2
+Text3.Font = 2
 Text1.Position = {0, Screen.y/2}
 Text2.Position = {0, Screen.y/2 + 15}
+Text3.Position = {0, Screen.y/2 + 30}
 local function keycheck()
     local cached = tick()
     while true do
@@ -136,10 +143,10 @@ local function keycheck()
             end
             if _G.legit then
                 Text2.Color = {0,255,0}
-                Text2.Text = "Legitmode on, | [L] To Enable"
+                Text2.Text = "Legitmode on, | [L] To Enable blatant"
             else
                 Text2.Color = {255,0,0}
-                Text2.Text = "Legitmode off, | [L] To Enable"
+                Text2.Text = "blatant on, | [L] To Enable legit"
             end
             wait(0.05)
         end
