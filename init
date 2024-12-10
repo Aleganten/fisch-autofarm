@@ -102,7 +102,7 @@ end
 
 local Text1 = Drawing.new("Text")
 local Text2 = Drawing.new("Text")
-local Text2 = Drawing.new("Text")
+local Text3 = Drawing.new("Text")
 local Screen = getscreendimensions()
 Text1.Text = "Off | [LCtrl] To Enable"
 Text2.Text = "Blatant on, | [L] To Enable legit"
