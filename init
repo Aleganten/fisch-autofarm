@@ -229,7 +229,7 @@ while _G.auto == true do
         if CalcX > 50 and CalcY > 50 then
         mousemoveabs(CalcX, CalcY)
         wait(0)
-        mousemoveabs(CalcX + math.random(0,2), CalcY + math.random(0,2))
+        mousemoveabs(CalcX + 2, CalcY - 2)
         wait(0)
         mouse1click()
         end
