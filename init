@@ -220,16 +220,16 @@ while _G.auto == true do
     local button = getbutton()
     if _G.Toggle and casted and button then
         local mice = getmouseposition()
-        local GettedX = button:GetMemoryValue(0x108, "float")
-        local GettedY = button:GetMemoryValue(0x10c, "float")
+        local X = button:GetMemoryValue(0x108, "float")
+        local Y = button:GetMemoryValue(0x10c, "float")
         local Size = button:GetMemoryValue(0x110, "float")
-        local ForX = GettedX + (Size / 2)
-        local ForY = GettedY + (Size / 2)
+        local CalcX = GettedX + (Size / 2)
+        local CalcY = GettedY + (Size / 2)
     
         if ForX > 50 and ForY > 50 then
-        mousemoveabs(ForX, ForY)
+        mousemoveabs(CalcX, CalcY)
         wait(0)
-        mousemoveabs(ForX + 2, ForY - 2)
+        mousemoveabs(CalcX + math.random(0,2), CalcY + math.random(0,2))
         wait(0)
         mouse1click()
         end
