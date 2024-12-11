@@ -94,7 +94,7 @@ local function Perfect_value_retrive(bar)
     end
 
     local success, perfect_value, error = pcall(function()
-        return getmemoryvalue(bar, 0x300, "float")
+        return getmemoryvalue(bar, 0x2F0, "float")
     end)
 
     return success, perfect_value
@@ -258,13 +258,13 @@ while _G.auto == true do
                 
                 if playerbar and fish then
                     local success, fishX = pcall(function()
-                        return getmemoryvalue(fish, 0x2E8, "float")
+                        return getmemoryvalue(fish, 0x2D8, "float")
                     end)
                     
                     if success and fishX then
                         local clampedX = math.clamp(fishX, 0.15, 0.9)
                         pcall(function()
-                            setmemoryvalue(playerbar, 0x2E8, "float", clampedX)
+                            setmemoryvalue(playerbar, 0x2D8, "float", clampedX)
                         end)
                     end
                 end
