@@ -5,7 +5,7 @@ local completionhighest = 1
 -- lowest is how low it can go
 -- highest is how high it can go 
 -- uses math.random()
-_G.legit = false
+_G.legit = true
 -- if you switch ingame be sure to equip and unequip a rod to reset the spoof
 -- turn to true to use legit mode
 local speed = 0.2
@@ -106,7 +106,7 @@ local Text3 = Drawing.new("Text")
 local Screen = getscreendimensions()
 Text1.Text = "Off | [LCtrl] To Enable"
 Text2.Text = "Blatant on, | [L] To Enable legit"
-Text3.Text = "Forced blatant as i cant update right now."
+Text3.Text = "If you use blatant and switch to legit ingame, be sure to reequip rod"
 Text1.Size = 14
 Text2.Size = 14
 Text3.Size = 14
@@ -131,7 +131,7 @@ local function keycheck()
                 _G.Toggle = not _G.Toggle
                 cached = current
             elseif key == "L" and current - cached > 0.8 then
-                _G.legit = false
+                _G.legit = not _G.legit
                 cached = current
             end
             if _G.Toggle then
