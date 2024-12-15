@@ -1,10 +1,7 @@
 Drawing.clear()
 _G.Toggle = false
-local completionlowest = 0
-local completionhighest = 1
--- lowest is how low it can go
--- highest is how high it can go 
--- uses math.random()
+local completion = 0.1
+-- if bar is higher than this percent it casts (0.01 - 0.99)
 _G.legit = true
 -- if you switch ingame be sure to equip and unequip a rod to reset the spoof
 -- turn to true to use legit mode
@@ -83,7 +80,9 @@ local function Bar(powerbar)
 end
 
 local function DoSomething(success, perfect_value)
-    if success and perfect_value and perfect_value >= math.random(completionlowest, completionhighest) then
+    print("Checking")
+    if success and perfect_value and perfect_value >= 0.5 then
+        print("Throwing")
         mouse1release()
     end
 end
@@ -235,7 +234,7 @@ while _G.auto == true do
         wait(0.001)
         mouse1click()
         end
-        wait(speed / 2)
+        wait(speed / 1.75)
     end
 
     -- REELING PART
