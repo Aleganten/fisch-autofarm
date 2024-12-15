@@ -1,6 +1,6 @@
 Drawing.clear()
 _G.Toggle = false
-local completion = 0.1
+local completion = 0.01
 -- if bar is higher than this percent it casts (0.01 - 0.99)
 _G.legit = true
 -- if you switch ingame be sure to equip and unequip a rod to reset the spoof
@@ -80,9 +80,7 @@ local function Bar(powerbar)
 end
 
 local function DoSomething(success, perfect_value)
-    print("Checking")
-    if success and perfect_value and perfect_value >= 0.5 then
-        print("Throwing")
+    if success and perfect_value and perfect_value >= completion then
         mouse1release()
     end
 end
