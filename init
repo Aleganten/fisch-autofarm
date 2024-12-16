@@ -5,7 +5,7 @@ local completion = 0.01
 _G.legit = true
 -- if you switch ingame be sure to equip and unequip a rod to reset the spoof
 -- turn to true to use legit mode
-local speed = 0.1
+local speed = 0.15
 -- go from 0.15 to however high you want. changes how fast you click on the shake buttons
 
 -- dont change
