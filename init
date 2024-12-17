@@ -103,25 +103,32 @@ end
 local Text1 = Drawing.new("Text")
 local Text2 = Drawing.new("Text")
 local Text3 = Drawing.new("Text")
+local Text4 = Drawing.new("Text")
 local Screen = getscreendimensions()
 Text1.Text = "Off | [LCtrl] To Enable"
 Text2.Text = "Blatant on, | [L] To Enable legit"
 Text3.Text = "If you use blatant and switch to legit ingame, be sure to reequip rod"
+Text4.Text = "speed: " .. speed
 Text1.Size = 14
 Text2.Size = 14
 Text3.Size = 14
+Text4.Size = 14
 Text1.Visible = true
 Text2.Visible = true
 Text3.Visible = true
+Text4.Visible = true
 Text1.Color = {255,0,0}
 Text2.Color = {255,0,0}
 Text3.Color = {255,255,255}
+Text4.Color = {255,255,255}
 Text1.Font = 2
 Text2.Font = 2
 Text3.Font = 2
+Text4.Font = 2
 Text1.Position = {0, Screen.y/2}
 Text2.Position = {0, Screen.y/2 + 15}
 Text3.Position = {0, Screen.y/2 + 30}
+Text4.Position = {0, Screen.y/2 + 45}
 local function keycheck()
     local cached = tick()
     while true do
@@ -133,13 +140,22 @@ local function keycheck()
             elseif key == "L" and current - cached > 0.8 then
                 _G.legit = not _G.legit
                 cached = current
+            elseif key == "F6" and current - cached > 0.8 then
+               speed = speed - 0.01
+               cached = current
+            elseif key == "F7" and current - cached > 0.8 then
+                speed += 0.01
+                cached = current
             end
             if _G.Toggle then
                 Text1.Color = {0,255,0}
                 Text1.Text = "On | [LCtrl] To Disable"
+                Text4.Text = "speed: " .. speed
+                Text4.Visible = true
             else
                 Text1.Color = {255,0,0}
                 Text1.Text = "Off | [LCtrl] To Enable"
+                Text4.Visible = false
             end
             if _G.legit then
                 Text2.Color = {0,255,0}
