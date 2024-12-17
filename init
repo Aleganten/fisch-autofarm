@@ -108,7 +108,7 @@ local Screen = getscreendimensions()
 Text1.Text = "Off | [LCtrl] To Enable"
 Text2.Text = "Blatant on, | [L] To Enable legit"
 Text3.Text = "If you use blatant and switch to legit ingame, be sure to reequip rod"
-Text4.Text = "speed: " .. speed
+Text4.Text = "F6 TO LOWER F7 TO HIGHER, current speed: " .. speed
 Text1.Size = 14
 Text2.Size = 14
 Text3.Size = 14
@@ -141,7 +141,7 @@ local function keycheck()
                 _G.legit = not _G.legit
                 cached = current
             elseif key == "F6" and current - cached > 0.8 then
-               speed = speed - 0.01
+               speed -= 0.01
                cached = current
             elseif key == "F7" and current - cached > 0.8 then
                 speed += 0.01
@@ -151,11 +151,9 @@ local function keycheck()
                 Text1.Color = {0,255,0}
                 Text1.Text = "On | [LCtrl] To Disable"
                 Text4.Text = "speed: " .. speed
-                Text4.Visible = true
             else
                 Text1.Color = {255,0,0}
                 Text1.Text = "Off | [LCtrl] To Enable"
-                Text4.Visible = false
             end
             if _G.legit then
                 Text2.Color = {0,255,0}
